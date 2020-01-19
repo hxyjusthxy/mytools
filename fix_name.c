@@ -67,24 +67,29 @@ void list_current_file_process_file_name(const char *dir_ab_path,const char *tar
             strcat(old_name,"/");
             strcat(old_name,entry->d_name);
             printf("Process old file Path:%s,(str_pos - old_name)=%ld\n",old_name,str_pos-old_name);
-
             file_get_newname(old_name,target_str,str_pos-old_name,new_name);
         }
     }
     printf("close the directory!\n");
     closedir(dir);
 }
-int main(void) {
+int main(int argc , char **argv) {
     char path[PATH_MAX_LENGTH]={0};
     char *path_ret=NULL;
+    int i=0;
     path_ret = getcwd(path, sizeof(path)/sizeof(char));
     if (path_ret == NULL){
         printf("get the execute directory error!");
         return -1;
     }
     printf("EXECTE Path = %s\n",path);
-
-    list_current_file_process_file_name(path, TARGET_STRING);
-    
+    for (i=0;i<argc;i++){
+        printf("input [%d]-%s-\n",argc, argv[i]);
+    }
+    if (argv[1] == NULL){
+        printf("input fix_str is NULL!!!\n");
+        return -1;
+    }
+    list_current_file_process_file_name(path, argv[1]);
     return 0;
 }
